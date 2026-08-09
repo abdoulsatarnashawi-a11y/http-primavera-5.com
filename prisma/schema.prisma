@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  role      String   @default("customer")
+  createdAt DateTime @default(now())
+  orders    Order[]
+}
+
+model Product {
+  id            String      @id @default(cuid())
+  name          String
+  description   String
+  image         String?
+  brand         String
+  model         String
+  category      String
+  specs         String?
+  retailPrice   Float
+  wholesalePrice Float
+  stock         Int         @default(0)
+  active        Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  status    String      @default("pending")
+  total     Float
+  notes     String?
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+}
+
+model SiteSettings {
+  id              String @id @default("main")
+  siteName        String @default("Primavera-5")
+  siteTagline     String @default("Авточасти и аксесоари за всички марки")
+  headerLogo      String @default("Primavera-5")
+  headerPhone     String @default("+359 888 000 000")
+  headerEmail     String @default("info@primavera-5.com")
+  headerNav       String @default("[{\"label\":\"Начало\",\"href\":\"/\"},{\"label\":\"Продукти\",\"href\":\"/products\"},{\"label\":\"Контакти\",\"href\":\"/contact\"}]")
+  footerAbout     String @default("Primavera-5 е вашият надежден партньор за авточасти, аксесоари и оборудване за всички марки и модели автомобили.")
+  footerAddress   String @default("София, България")
+  footerPhone     String @default("+359 888 000 000")
+  footerEmail     String @default("info@primavera-5.com")
+  footerCopyright String @default("© 2026 Primavera-5. Всички права запазени.")
+  version         String @default("1.0.0")
+}
+
+model VisitorStats {
+  id             String @id @default("stats")
+  totalVisitors  Int    @default(0)
+  currentOnline  Int    @default(0)
+}
