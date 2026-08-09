@@ -37,7 +37,7 @@ export default async function Header({ settings }: HeaderProps) {
             </div>
             <div>
               <h1 className="text-xl font-bold">{settings.headerLogo}</h1>
-              <p className="text-xs text-blue-200">{settings.siteTagline}</p>
+              <p className="text-xs text-blue-200/70">{settings.siteTagline}</p>
             </div>
           </Link>
 

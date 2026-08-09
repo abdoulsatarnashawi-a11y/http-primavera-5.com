@@ -3,6 +3,16 @@ import { prisma } from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 import { BG } from '@/lib/i18n';
 import ProductCard from '@/components/ProductCard';
+import HeroSlider from '@/components/HeroSlider';
+
+function shuffle<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 export default async function HomePage() {
   const session = await getSession();
@@ -12,19 +22,28 @@ export default async function HomePage() {
     orderBy: { createdAt: 'desc' },
   });
 
+  const sliderProducts = await prisma.product.findMany({
+    where: { active: true, image: { not: null } },
+    select: { id: true, name: true, brand: true, model: true, image: true },
+  });
+
+  const slides = shuffle(
+    sliderProducts
+      .filter((p) => p.image)
+      .map((p) => ({
+        id: p.id,
+        name: p.name,
+        brand: p.brand,
+        model: p.model,
+        image: p.image!,
+      }))
+  ).slice(0, 6);
+
   const categories = Object.values(BG.categories);
 
   return (
     <>
-      <section className="bg-gradient-to-r from-primary to-primary-dark text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">{BG.home.heroTitle}</h1>
-          <p className="text-xl text-blue-200 mb-8 max-w-2xl mx-auto">{BG.home.heroSubtitle}</p>
-          <Link href="/products" className="btn-accent text-lg inline-block">
-            {BG.home.shopNow}
-          </Link>
-        </div>
-      </section>
+      <HeroSlider slides={slides} />
 
       <section className="container mx-auto px-4 py-12">
         <h2 className="text-2xl font-bold text-center mb-8 text-primary">{BG.home.categories}</h2>

@@ -39,7 +39,7 @@ export default async function Footer({ settings }: FooterProps) {
           </div>
         </div>
 
-        <div className="border-t border-blue-800 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-blue-300">
+        <div className="border-t border-primary-light/30 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-blue-200/60">
           <p>{settings.footerCopyright}</p>
           <div className="flex gap-6">
             <span>{BG.footer.visitors}: <strong className="text-white">{stats.totalVisitors}</strong></span>
