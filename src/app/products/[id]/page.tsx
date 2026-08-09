@@ -20,52 +20,62 @@ export default async function ProductDetailPage({ params, searchParams }: Props)
   if (!product || !product.active) notFound();
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="relative h-80 md:h-96 bg-gray-100 rounded-xl overflow-hidden">
+    <div className="container mx-auto px-4 py-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="relative h-80 md:h-[480px] rounded-2xl overflow-hidden shadow-card group">
           {product.image ? (
-            <Image src={product.image} alt={product.name} fill className="object-cover" sizes="50vw" />
+            <Image src={product.image} alt={product.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700" sizes="50vw" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-dark text-white text-6xl font-bold">
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-dark text-white text-7xl font-extrabold">
               P5
             </div>
           )}
+          <div className="absolute top-4 left-4 badge bg-primary text-white border-0 shadow-glow-blue text-sm">
+            {product.brand}
+          </div>
         </div>
 
-        <div>
-          <span className="bg-primary text-white text-sm px-3 py-1 rounded-full">{product.brand}</span>
-          <h1 className="text-3xl font-bold mt-3 mb-2">{product.name}</h1>
-          <p className="text-gray-500 mb-4">{product.model} | {product.category}</p>
+        <div className="animate-fade-in-up">
+          <p className="text-sm font-bold text-accent uppercase tracking-wider mb-2">{product.category}</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">{product.name}</h1>
+          <p className="text-slate-500 font-medium mb-6">{product.model}</p>
 
           {session ? (
-            <div className="bg-gray-50 rounded-xl p-4 mb-6">
-              <p className="text-3xl font-bold text-accent mb-1">{formatPrice(product.retailPrice)}</p>
-              <p className="text-sm text-gray-600">{BG.products.wholesalePrice}: <strong>{formatPrice(product.wholesalePrice)}</strong></p>
-              <p className="text-sm mt-2">
+            <div className="card-glass p-6 mb-6 border border-primary/10">
+              <p className="text-4xl font-extrabold gradient-text mb-1">{formatPrice(product.retailPrice)}</p>
+              <p className="text-sm text-slate-500">{BG.products.wholesalePrice}: <strong className="text-slate-700">{formatPrice(product.wholesalePrice)}</strong></p>
+              <div className="mt-3">
                 {product.stock > 0 ? (
-                  <span className="text-green-600 font-medium">{BG.products.inStock} ({product.stock} {BG.products.pieces})</span>
+                  <span className="badge bg-green-100 text-green-700 border-green-200">✓ {BG.products.inStock} ({product.stock} {BG.products.pieces})</span>
                 ) : (
-                  <span className="text-red-600 font-medium">{BG.products.outOfStock}</span>
+                  <span className="badge bg-red-100 text-red-700 border-red-200">{BG.products.outOfStock}</span>
                 )}
-              </p>
+              </div>
             </div>
           ) : (
-            <div className="bg-accent/10 border border-accent rounded-xl p-6 mb-6 text-center">
-              <p className="text-lg font-semibold text-accent mb-2">{BG.products.loginForPrice}</p>
-              <p className="text-sm text-gray-600 mb-4">{BG.products.priceHidden}</p>
-              <div className="flex gap-3 justify-center">
-                <Link href="/auth/login" className="btn-primary text-sm">{BG.nav.login}</Link>
-                <Link href="/auth/register" className="btn-accent text-sm">{BG.nav.register}</Link>
+            <div className="relative overflow-hidden rounded-2xl p-8 mb-6 text-center">
+              <div className="absolute inset-0 bg-cta-gradient opacity-90" />
+              <div className="relative z-10">
+                <span className="text-4xl mb-3 block">🔒</span>
+                <p className="text-xl font-extrabold text-white mb-2">{BG.products.loginForPrice}</p>
+                <p className="text-red-100 text-sm mb-5">{BG.products.priceHidden}</p>
+                <div className="flex gap-3 justify-center">
+                  <Link href="/auth/login" className="bg-white text-accent font-bold py-2 px-6 rounded-xl hover:scale-105 transition-transform">{BG.nav.login}</Link>
+                  <Link href="/auth/register" className="btn-glass py-2 px-6">{BG.nav.register}</Link>
+                </div>
               </div>
             </div>
           )}
 
-          <p className="text-gray-700 mb-6 leading-relaxed">{product.description}</p>
+          <p className="text-slate-600 mb-6 leading-relaxed text-base">{product.description}</p>
 
           {product.specs && (
             <div className="mb-6">
-              <h3 className="font-semibold text-primary mb-2">{BG.products.specs}</h3>
-              <div className="bg-gray-50 rounded-lg p-4 text-sm whitespace-pre-line">{product.specs}</div>
+              <h3 className="font-extrabold text-primary mb-3 flex items-center gap-2">
+                <span className="w-6 h-0.5 bg-accent rounded" />
+                {BG.products.specs}
+              </h3>
+              <div className="card-glass p-5 text-sm whitespace-pre-line text-slate-600 leading-relaxed">{product.specs}</div>
             </div>
           )}
 
@@ -73,7 +83,7 @@ export default async function ProductDetailPage({ params, searchParams }: Props)
             <AddToCartButton productId={product.id} autoBuy={buy === '1'} />
           )}
 
-          <Link href="/products" className="inline-block mt-4 text-primary hover:underline text-sm">
+          <Link href="/products" className="inline-flex items-center gap-2 mt-6 text-primary hover:text-accent font-semibold text-sm transition-colors">
             ← {BG.cart.continueShopping}
           </Link>
         </div>

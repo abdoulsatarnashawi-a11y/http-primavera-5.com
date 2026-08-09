@@ -23,26 +23,16 @@ export default async function ProductsPage({ searchParams }: Props) {
     ];
   }
 
-  const products = await prisma.product.findMany({
-    where,
-    orderBy: { createdAt: 'desc' },
-  });
-
-  const brands = await prisma.product.findMany({
-    where: { active: true },
-    select: { brand: true },
-    distinct: ['brand'],
-  });
-
-  const categories = await prisma.product.findMany({
-    where: { active: true },
-    select: { category: true },
-    distinct: ['category'],
-  });
+  const products = await prisma.product.findMany({ where, orderBy: { createdAt: 'desc' } });
+  const brands = await prisma.product.findMany({ where: { active: true }, select: { brand: true }, distinct: ['brand'] });
+  const categories = await prisma.product.findMany({ where: { active: true }, select: { category: true }, distinct: ['category'] });
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-primary mb-8">{BG.products.title}</h1>
+    <div className="container mx-auto px-4 py-10">
+      <div className="mb-8 animate-fade-in-up">
+        <h1 className="section-title">{BG.products.title}</h1>
+        <p className="section-subtitle">{products.length} {BG.products.title.toLowerCase()}</p>
+      </div>
       <ProductFilters
         brands={brands.map((b) => b.brand)}
         categories={categories.map((c) => c.category)}
@@ -50,13 +40,16 @@ export default async function ProductsPage({ searchParams }: Props) {
         currentCategory={params.category}
         currentQuery={params.q}
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8 animate-stagger">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} isLoggedIn={!!session} />
         ))}
       </div>
       {products.length === 0 && (
-        <p className="text-center text-gray-500 py-12">{BG.products.noResults}</p>
+        <div className="text-center py-20">
+          <span className="text-6xl mb-4 block">🔍</span>
+          <p className="text-slate-500 text-lg font-medium">{BG.products.noResults}</p>
+        </div>
       )}
     </div>
   );

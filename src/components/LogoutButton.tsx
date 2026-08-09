@@ -13,7 +13,10 @@ export default function LogoutButton() {
   }
 
   return (
-    <button onClick={handleLogout} className="text-sm hover:text-accent-light transition-colors">
+    <button
+      onClick={handleLogout}
+      className="text-sm text-white/70 hover:text-white font-medium px-3 py-2 rounded-lg hover:bg-white/10 transition-all"
+    >
       {BG.nav.logout}
     </button>
   );
