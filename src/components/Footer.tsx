@@ -42,8 +42,9 @@ export default async function Footer({ settings }: FooterProps) {
               {[
                 { href: '/products', label: BG.nav.products },
                 { href: '/contact', label: BG.nav.contact },
-                { href: '/privacy', label: BG.footer.privacy },
                 { href: '/terms', label: BG.footer.terms },
+                { href: '/privacy', label: BG.footer.privacy },
+                { href: '/consent', label: BG.footer.consent },
               ].map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-blue-200/70 hover:text-white hover:translate-x-1 inline-block transition-all duration-200">

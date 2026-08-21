@@ -4,7 +4,13 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 
 export async function POST(req: NextRequest) {
-  const { name, email, phone, password } = await req.json();
+  const { name, email, phone, password, acceptTerms } = await req.json();
+  if (!acceptTerms) {
+    return NextResponse.json(
+      { error: 'Трябва да приемете Общите условия и Политиката за поверителност' },
+      { status: 400 }
+    );
+  }
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     return NextResponse.json({ error: 'Този имейл вече е регистриран' }, { status: 400 });

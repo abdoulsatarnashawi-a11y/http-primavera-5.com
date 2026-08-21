@@ -17,6 +17,12 @@ export default function RegisterPage() {
     const form = new FormData(e.currentTarget);
     const password = form.get('password') as string;
     const confirm = form.get('confirmPassword') as string;
+    const acceptTerms = form.get('acceptTerms');
+    if (!acceptTerms) {
+      setError(BG.consent.termsRequired);
+      setLoading(false);
+      return;
+    }
     if (password !== confirm) {
       setError(BG.auth.passwordMismatch);
       setLoading(false);
@@ -30,6 +36,7 @@ export default function RegisterPage() {
         email: form.get('email'),
         phone: form.get('phone'),
         password,
+        acceptTerms: true,
       }),
     });
     const data = await res.json();
@@ -78,6 +85,24 @@ export default function RegisterPage() {
               <label className="label">{BG.auth.confirmPassword}</label>
               <input name="confirmPassword" type="password" required className="input-field" />
             </div>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                name="acceptTerms"
+                type="checkbox"
+                required
+                className="mt-1 w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30"
+              />
+              <span className="text-sm text-slate-600 leading-relaxed">
+                {BG.consent.agreeTerms}{' '}
+                <Link href="/terms" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.footer.terms}
+                </Link>{' '}
+                {BG.consent.and}{' '}
+                <Link href="/privacy" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.footer.privacy}
+                </Link>
+              </span>
+            </label>
             <button type="submit" disabled={loading} className="btn-accent w-full">
               {loading ? '...' : BG.auth.registerBtn}
             </button>
