@@ -45,6 +45,23 @@ export async function getSession(): Promise<SessionUser | null> {
   return verifyToken(token);
 }
 
+export function isAdminUser(session: SessionUser | null | undefined): boolean {
+  return session?.role?.toLowerCase() === 'admin';
+}
+
+export async function getAdminSession(): Promise<SessionUser | null> {
+  const session = await getSession();
+  if (!session) return null;
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.id },
+    select: { id: true, email: true, name: true, role: true },
+  });
+
+  if (!user || !isAdminUser(user)) return null;
+  return user as SessionUser;
+}
+
 export async function requireAuth(): Promise<SessionUser> {
   const session = await getSession();
   if (!session) throw new Error('Unauthorized');
@@ -53,7 +70,7 @@ export async function requireAuth(): Promise<SessionUser> {
 
 export async function requireAdmin(): Promise<SessionUser> {
   const session = await requireAuth();
-  if (session.role !== 'admin') throw new Error('Forbidden');
+  if (!isAdminUser(session)) throw new Error('Forbidden');
   return session;
 }
 

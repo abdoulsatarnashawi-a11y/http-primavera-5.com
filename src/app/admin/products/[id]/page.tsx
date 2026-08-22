@@ -1,6 +1,6 @@
 import { redirect, notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/auth';
+import { getAdminSession } from '@/lib/auth';
 import { BG } from '@/lib/i18n';
 import ProductForm from '@/components/ProductForm';
 
@@ -9,8 +9,8 @@ interface Props {
 }
 
 export default async function EditProductPage({ params }: Props) {
-  const session = await getSession();
-  if (!session || session.role !== 'admin') redirect('/auth/login');
+  const session = await getAdminSession();
+  if (!session) redirect('/auth/login');
 
   const { id } = await params;
   const product = await prisma.product.findUnique({ where: { id } });

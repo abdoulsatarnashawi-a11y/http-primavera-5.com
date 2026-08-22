@@ -21,6 +21,7 @@ export default function SettingsForm({ settings }: Props) {
     const data = Object.fromEntries(form.entries());
     const res = await fetch('/api/admin/settings', {
       method: 'PUT',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });

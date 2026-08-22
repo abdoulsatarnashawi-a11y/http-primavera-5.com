@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/auth';
+import { getAdminSession } from '@/lib/auth';
 import { BG, formatPrice } from '@/lib/i18n';
 import OrderStatusSelect from '@/components/OrderStatusSelect';
 
 export default async function AdminOrdersPage() {
-  const session = await getSession();
-  if (!session || session.role !== 'admin') redirect('/auth/login');
+  const session = await getAdminSession();
+  if (!session) redirect('/auth/login');
 
   const orders = await prisma.order.findMany({
     include: { user: true, items: { include: { product: true } } },

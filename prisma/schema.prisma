@@ -78,3 +78,11 @@ model VisitorStats {
   totalVisitors  Int    @default(0)
   currentOnline  Int    @default(0)
 }
+
+model SiteBackup {
+  id        String   @id @default(cuid())
+  label     String?
+  payload   String
+  createdBy String?
+  createdAt DateTime @default(now())
+}

@@ -1,13 +1,13 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { prisma } from '@/lib/prisma';
-import { getSession } from '@/lib/auth';
+import { getAdminSession } from '@/lib/auth';
 import { BG, formatPrice } from '@/lib/i18n';
 import DeleteProductButton from '@/components/DeleteProductButton';
 
 export default async function AdminProductsPage() {
-  const session = await getSession();
-  if (!session || session.role !== 'admin') redirect('/auth/login');
+  const session = await getAdminSession();
+  if (!session) redirect('/auth/login');
 
   const products = await prisma.product.findMany({ orderBy: { createdAt: 'desc' } });
 
