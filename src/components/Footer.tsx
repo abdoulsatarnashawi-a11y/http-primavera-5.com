@@ -21,7 +21,7 @@ export default async function Footer({ settings }: FooterProps) {
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-primary-glow/10 rounded-full blur-3xl" />
 
       <div className="relative z-10 container mx-auto px-4 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
@@ -36,15 +36,34 @@ export default async function Footer({ settings }: FooterProps) {
           <div>
             <h3 className="text-sm font-extrabold mb-4 text-white uppercase tracking-wider flex items-center gap-2">
               <span className="w-8 h-0.5 bg-accent rounded" />
+              {BG.footer.legalSection}
+            </h3>
+            <ul className="space-y-3 text-sm">
+              {[
+                { href: '/terms', label: BG.footer.terms },
+                { href: '/privacy', label: BG.footer.privacy },
+                { href: '/consent', label: BG.footer.consent },
+                { href: '/legal-info', label: BG.footer.legalInfo },
+                { href: '/withdrawal', label: BG.footer.withdrawal },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-blue-200/70 hover:text-white hover:translate-x-1 inline-block transition-all duration-200">
+                    → {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-extrabold mb-4 text-white uppercase tracking-wider flex items-center gap-2">
+              <span className="w-8 h-0.5 bg-accent rounded" />
               {BG.footer.quickLinks}
             </h3>
             <ul className="space-y-3 text-sm">
               {[
                 { href: '/products', label: BG.nav.products },
                 { href: '/contact', label: BG.nav.contact },
-                { href: '/terms', label: BG.footer.terms },
-                { href: '/privacy', label: BG.footer.privacy },
-                { href: '/consent', label: BG.footer.consent },
               ].map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-blue-200/70 hover:text-white hover:translate-x-1 inline-block transition-all duration-200">

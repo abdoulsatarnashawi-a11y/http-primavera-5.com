@@ -23,7 +23,9 @@ export const termsSections = [
         <p>
           Условията се прилагат към всички потребители — физически лица, които действат извън рамките на
           тяхната търговска или професионална дейност, независимо от държавата членка на ЕС/ЕИП, от
-          която осъществяват достъп до услугите или правят поръчка.
+          която осъществяват достъп до услугите или правят поръчка. Задължителната{' '}
+          <Link href="/legal-info" className="text-primary hover:underline">законна информация за търговеца</Link>{' '}
+          е публикувана на отделна страница.
         </p>
         <p>
           С достъп до сайта, регистрация или извършване на поръчка, Вие потвърждавате, че сте прочели,
@@ -174,6 +176,9 @@ export const termsSections = [
         </p>
         <p>За упражняване на правото на отказ, уведомете ни чрез недвусмислено заявление на:</p>
         <ul className="list-disc pl-6 space-y-1">
+          <li>
+            <Link href="/withdrawal" className="text-primary hover:underline">Формуляр за отказ от договор</Link>
+          </li>
           <li>Имейл: <a href={`mailto:${LEGAL_INFO.email}`} className="text-primary hover:underline">{LEGAL_INFO.email}</a></li>
           <li>Пощенски адрес: {LEGAL_INFO.address}</li>
         </ul>

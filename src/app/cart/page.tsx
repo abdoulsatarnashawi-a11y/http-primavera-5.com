@@ -22,6 +22,8 @@ export default function CartPage() {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [ordering, setOrdering] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [termsError, setTermsError] = useState('');
 
   useEffect(() => {
     async function loadCart() {
@@ -57,6 +59,11 @@ export default function CartPage() {
   const total = items.reduce((sum, i) => sum + (i.product?.retailPrice || 0) * i.quantity, 0);
 
   async function checkout() {
+    if (!acceptTerms) {
+      setTermsError(BG.consent.checkoutTermsRequired);
+      return;
+    }
+    setTermsError('');
     setOrdering(true);
     const res = await fetch('/api/orders', {
       method: 'POST',
@@ -104,13 +111,44 @@ export default function CartPage() {
               </div>
             ))}
           </div>
-          <div className="card p-6 flex justify-between items-center">
-            <div>
-              <p className="text-lg font-bold">{BG.cart.total}: <span className="text-accent text-2xl">{formatPrice(total)}</span></p>
+          <div className="card p-6 space-y-4">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={acceptTerms}
+                onChange={(e) => {
+                  setAcceptTerms(e.target.checked);
+                  if (e.target.checked) setTermsError('');
+                }}
+                className="mt-1 w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30"
+              />
+              <span className="text-sm text-slate-600 leading-relaxed">
+                {BG.consent.agreeCheckout}{' '}
+                <Link href="/terms" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.footer.terms}
+                </Link>
+                ,{' '}
+                <Link href="/privacy" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.footer.privacy}
+                </Link>{' '}
+                {BG.consent.acknowledgeWithdrawal}{' '}
+                <Link href="/withdrawal" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.consent.withdrawalRight}
+                </Link>
+                .
+              </span>
+            </label>
+            {termsError && (
+              <p className="text-sm text-red-600 font-medium">{termsError}</p>
+            )}
+            <div className="flex justify-between items-center pt-2">
+              <div>
+                <p className="text-lg font-bold">{BG.cart.total}: <span className="text-accent text-2xl">{formatPrice(total)}</span></p>
+              </div>
+              <button onClick={checkout} disabled={ordering} className="btn-accent text-lg">
+                {ordering ? '...' : BG.cart.checkout}
+              </button>
             </div>
-            <button onClick={checkout} disabled={ordering} className="btn-accent text-lg">
-              {ordering ? '...' : BG.cart.checkout}
-            </button>
           </div>
         </>
       )}
