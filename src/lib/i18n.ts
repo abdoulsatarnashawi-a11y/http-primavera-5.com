@@ -116,6 +116,14 @@ export const BG = {
     title: 'Общи условия',
   },
 
+  legalInfo: {
+    title: 'Законна информация',
+  },
+
+  withdrawal: {
+    title: 'Право на отказ',
+  },
+
   consent: {
     title: 'Политика за бисквитки и съгласие',
     bannerTitle: 'Бисквитки и поверителност',
@@ -132,7 +140,11 @@ export const BG = {
     analyticsDesc: 'Анонимна статистика за посещаемост.',
     alwaysOn: 'Винаги активни',
     termsRequired: 'Трябва да приемете Общите условия и Политиката за поверителност',
+    checkoutTermsRequired: 'Трябва да приемете Общите условия преди да завършите поръчката',
     agreeTerms: 'Съгласен съм с',
+    agreeCheckout: 'Потвърждавам, че съм запознат/а с',
+    acknowledgeWithdrawal: 'и съм информиран/а за',
+    withdrawalRight: 'правото на отказ',
     and: 'и',
   },
 
@@ -143,6 +155,9 @@ export const BG = {
     privacy: 'Поверителност',
     terms: 'Условия',
     consent: 'Бисквитки',
+    legalInfo: 'Законна информация',
+    withdrawal: 'Право на отказ',
+    legalSection: 'Правна информация',
     visitors: 'Общо посетители',
     onlineNow: 'Онлайн сега',
     version: 'Версия',

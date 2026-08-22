@@ -1,5 +1,6 @@
 export const LEGAL_INFO = {
   companyName: 'Primavera-5',
+  legalForm: 'Едноличен собственик / ЕООД',
   website: 'primavera-5.com',
   websiteUrl: 'https://primavera-5.com',
   email: 'info@primavera-5.com',
@@ -7,7 +8,9 @@ export const LEGAL_INFO = {
   address: 'София, България',
   eik: '[ЕИК/БУЛСТАТ]',
   vatNumber: '[ДДС номер, ако е приложимо]',
-  lastUpdated: '21.08.2026',
+  vatRegistered: 'Да, по Закона за данъка върху добавената стойност',
+  contactPerson: '[Име на лице за контакт]',
+  lastUpdated: '22.08.2026',
 } as const;
 
 export const EU_LINKS = {

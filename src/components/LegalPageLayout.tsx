@@ -46,7 +46,7 @@ export default function LegalPageLayout({ title, subtitle, sections }: LegalPage
         ))}
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-4 text-sm">
+      <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2 text-sm">
         <Link href="/terms" className="text-primary hover:text-accent font-medium transition-colors">
           Общи условия
         </Link>
@@ -54,7 +54,13 @@ export default function LegalPageLayout({ title, subtitle, sections }: LegalPage
           Политика за поверителност
         </Link>
         <Link href="/consent" className="text-primary hover:text-accent font-medium transition-colors">
-          Политика за бисквитки и съгласие
+          Политика за бисквитки
+        </Link>
+        <Link href="/legal-info" className="text-primary hover:text-accent font-medium transition-colors">
+          Законна информация
+        </Link>
+        <Link href="/withdrawal" className="text-primary hover:text-accent font-medium transition-colors">
+          Право на отказ
         </Link>
       </div>
     </div>
