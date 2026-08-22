@@ -1,11 +1,11 @@
 import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/auth';
+import { getAdminSession } from '@/lib/auth';
 import { BG } from '@/lib/i18n';
 import ProductForm from '@/components/ProductForm';
 
 export default async function NewProductPage() {
-  const session = await getSession();
-  if (!session || session.role !== 'admin') redirect('/auth/login');
+  const session = await getAdminSession();
+  if (!session) redirect('/auth/login');
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">

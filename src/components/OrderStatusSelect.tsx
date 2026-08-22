@@ -11,6 +11,7 @@ export default function OrderStatusSelect({ orderId, currentStatus }: Props) {
   async function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
     await fetch(`/api/admin/orders/${orderId}`, {
       method: 'PUT',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: e.target.value }),
     });

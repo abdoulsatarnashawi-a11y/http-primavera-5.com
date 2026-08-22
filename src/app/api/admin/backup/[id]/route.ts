@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
 import { getAdminSession } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -10,19 +10,30 @@ function forbidden() {
   return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 }
 
-export async function PUT(req: NextRequest, { params }: Props) {
+export async function GET(_req: NextRequest, { params }: Props) {
   const session = await getAdminSession();
   if (!session) return forbidden();
+
   const { id } = await params;
-  const data = await req.json();
-  const product = await prisma.product.update({ where: { id }, data });
-  return NextResponse.json(product);
+  const backup = await prisma.siteBackup.findUnique({ where: { id } });
+  if (!backup) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
+  const payload = JSON.parse(backup.payload);
+  return NextResponse.json({
+    id: backup.id,
+    label: backup.label,
+    createdAt: backup.createdAt,
+    payload,
+  });
 }
 
 export async function DELETE(_req: NextRequest, { params }: Props) {
   const session = await getAdminSession();
   if (!session) return forbidden();
+
   const { id } = await params;
-  await prisma.product.delete({ where: { id } });
+  await prisma.siteBackup.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }

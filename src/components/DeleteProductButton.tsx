@@ -7,7 +7,7 @@ interface Props {
 export default function DeleteProductButton({ id }: Props) {
   async function handleDelete() {
     if (!confirm('Сигурни ли сте?')) return;
-    await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
+    await fetch(`/api/admin/products/${id}`, { method: 'DELETE', credentials: 'include' });
     window.location.reload();
   }
 

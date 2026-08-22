@@ -194,6 +194,26 @@ export const BG = {
     orderStatus: 'Статус на поръчката',
     customer: 'Клиент',
     total: 'Сума',
+    backupTitle: 'Резервно копие и възстановяване',
+    backupDescription:
+      'Копието включва настройките и продуктите. Поръчките и клиентските данни не се включват.',
+    backupLabel: 'Описание на копието',
+    backupLabelPlaceholder: 'напр. Преди обновяване',
+    backupCreate: 'Създай резервно копие',
+    backupUpload: 'Възстанови от файл',
+    backupDownload: 'Изтегли',
+    backupRestore: 'Възстанови',
+    backupDelete: 'Изтрий',
+    backupLoading: 'Зареждане…',
+    backupEmpty: 'Все още няма резервни копия.',
+    backupCreated: 'Резервното копие е създадено',
+    backupRestored: 'Сайтът е възстановен от копието',
+    backupDeleted: 'Копието е изтрито',
+    backupRestoreConfirm:
+      'Възстановяване от копие ще презапише текущите настройки и продукти. Продължавате ли?',
+    backupDeleteConfirm: 'Изтриване на това резервно копие?',
+    backupInvalidFile: 'Невалиден файл',
+    backupForbidden: 'Забранен достъп — влезте като администратор',
   },
 
   categories: {
