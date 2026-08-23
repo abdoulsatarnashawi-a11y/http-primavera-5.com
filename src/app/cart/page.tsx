@@ -70,6 +70,7 @@ export default function CartPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
+        acceptTerms: true,
       }),
     });
     if (res.ok) {
@@ -112,6 +113,16 @@ export default function CartPage() {
             ))}
           </div>
           <div className="card p-6 space-y-4">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 leading-relaxed">
+              <p className="font-semibold text-primary mb-1">{BG.consent.preContractInfo}</p>
+              <p>
+                {BG.consent.preContractText}{' '}
+                <Link href="/legal-info" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.consent.legalInfoLink}
+                </Link>
+                .
+              </p>
+            </div>
             <label className="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"

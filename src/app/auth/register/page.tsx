@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [acceptAge, setAcceptAge] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -20,6 +21,11 @@ export default function RegisterPage() {
     const acceptTerms = form.get('acceptTerms');
     if (!acceptTerms) {
       setError(BG.consent.termsRequired);
+      setLoading(false);
+      return;
+    }
+    if (!acceptAge) {
+      setError(BG.consent.ageRequired);
       setLoading(false);
       return;
     }
@@ -101,6 +107,26 @@ export default function RegisterPage() {
                 <Link href="/privacy" target="_blank" className="text-primary hover:text-accent font-medium">
                   {BG.footer.privacy}
                 </Link>
+                ,{' '}
+                <Link href="/consent" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.footer.consent}
+                </Link>{' '}
+                {BG.consent.and}{' '}
+                <Link href="/legal-info" target="_blank" className="text-primary hover:text-accent font-medium">
+                  {BG.footer.legalInfo}
+                </Link>
+              </span>
+            </label>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={acceptAge}
+                onChange={(e) => setAcceptAge(e.target.checked)}
+                required
+                className="mt-1 w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary/30"
+              />
+              <span className="text-sm text-slate-600 leading-relaxed">
+                {BG.consent.ageConfirm}
               </span>
             </label>
             <button type="submit" disabled={loading} className="btn-accent w-full">
