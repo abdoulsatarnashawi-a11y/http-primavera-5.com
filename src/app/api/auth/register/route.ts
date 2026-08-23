@@ -16,8 +16,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Този имейл вече е регистриран' }, { status: 400 });
   }
   const hashed = await hashPassword(password);
+  const now = new Date();
   const user = await prisma.user.create({
-    data: { name, email, phone, password: hashed, role: 'customer' },
+    data: {
+      name,
+      email,
+      phone,
+      password: hashed,
+      role: 'customer',
+      termsAcceptedAt: now,
+      privacyAcceptedAt: now,
+    },
   });
   const sessionUser = { id: user.id, email: user.email, name: user.name, role: user.role };
   const token = await createToken(sessionUser);

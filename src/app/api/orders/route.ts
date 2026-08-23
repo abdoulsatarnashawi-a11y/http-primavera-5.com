@@ -7,7 +7,13 @@ export async function POST(req: NextRequest) {
   if (!session) {
     return NextResponse.json({ error: 'Необходим е вход' }, { status: 401 });
   }
-  const { items } = await req.json();
+  const { items, acceptTerms } = await req.json();
+  if (!acceptTerms) {
+    return NextResponse.json(
+      { error: 'Трябва да приемете Общите условия и да потвърдите запознаването си с Политиката за поверителност' },
+      { status: 400 }
+    );
+  }
   if (!items || items.length === 0) {
     return NextResponse.json({ error: 'Празна количка' }, { status: 400 });
   }
@@ -31,6 +37,7 @@ export async function POST(req: NextRequest) {
     data: {
       userId: session.id,
       total,
+      termsAcceptedAt: new Date(),
       items: { create: orderItems },
     },
   });
